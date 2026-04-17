@@ -49,9 +49,9 @@ export default function PaginaSteami() {
     border: 'none', 
     marginRight: '10px', 
     width: '250px',
-    backgroundColor: '#c7d5e0', // Fondo gris claro
-    color: '#000000',           // LETRA NEGRA (para que se vea al escribir)
-    outline: 'none'             // Quita el borde feo al hacer clic
+    backgroundColor: '#c7d5e0', 
+    color: '#000000',           
+    outline: 'none'             
   }}
   required
 />

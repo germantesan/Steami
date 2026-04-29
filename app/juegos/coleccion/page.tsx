@@ -8,7 +8,7 @@ export default function ColeccionPage() {
     return (
     <div className="p-20 min-h-screen bg-gray-900 text-white text-center">
         <h1 className="text-4xl font-bold text-red-600 uppercase tracking-tighter">
-        Categoría: Terror
+        Categoría: Coleccion
         </h1>
         <p className="mt-2 text-gray-400 italic">
         &quot;Nuestros juegos no violan ninguna propiedad intelectual. Si piensas que nuestros juegos violan alguna propiedad intelectual, llama al teléfono de contacto de la página de contacto para que comprendas las razones por las que nuestros juegos no violan ninguna propiedad intelectual. Si sigues pensando que nuestros juegos violan alguna propiedad intelectual está usted equivocado, pues le recordamos que nuestros juegos no violan ninguna propiedad intelectual. Todos los derechos reservados.&quot;
@@ -24,7 +24,7 @@ export default function ColeccionPage() {
         <div className="relative w-full h-64 mb-4 overflow-hidden rounded-lg border-2 border-orange-500">
             <Image 
             src="/terror-top.jpg" 
-            alt="Top Ventas Terror" 
+            alt="Top Ventas coleccion" 
             fill
             className="object-cover hover:scale-105 transition-transform duration-500"
             />

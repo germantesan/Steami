@@ -8,7 +8,7 @@ export default function ReflejosPage() {
     return (
     <div className="p-20 min-h-screen bg-gray-900 text-white text-center">
         <h1 className="text-4xl font-bold text-red-600 uppercase tracking-tighter">
-        Categoría: Terror
+        Categoría: Reflejos
         </h1>
         <p className="mt-2 text-gray-400 italic">
         &quot;Juegos tan difíciles que no se los han pasado ni los desarroyadores con chetos. No aseguramos que el final del gameplay compile correctamnete.&quot;
@@ -24,7 +24,7 @@ export default function ReflejosPage() {
         <div className="relative w-full h-64 mb-4 overflow-hidden rounded-lg border-2 border-orange-500">
             <Image 
             src="/terror-top.jpg" 
-            alt="Top Ventas Terror" 
+            alt="Top Ventas reflejos" 
             fill
             className="object-cover hover:scale-105 transition-transform duration-500"
             />

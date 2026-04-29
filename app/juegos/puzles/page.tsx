@@ -8,7 +8,7 @@ export default function PuzzlePage() {
     return (
     <div className="p-20 min-h-screen bg-gray-900 text-white text-center">
         <h1 className="text-4xl font-bold text-red-600 uppercase tracking-tighter">
-        Categoría: Terror
+        Categoría: Puzles
         </h1>
         <p className="mt-2 text-gray-400 italic">
         &quot;Solo aptos para polineuronales.&quot;
@@ -24,7 +24,7 @@ export default function PuzzlePage() {
         <div className="relative w-full h-64 mb-4 overflow-hidden rounded-lg border-2 border-orange-500">
             <Image 
             src="/terror-top.jpg" 
-            alt="Top Ventas Terror" 
+            alt="Top Ventas puzles" 
             fill
             className="object-cover hover:scale-105 transition-transform duration-500"
             />

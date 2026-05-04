@@ -50,12 +50,11 @@ export default function TerrorPage() {
             <div className="relative w-full h-40 mb-4 overflow-hidden rounded-md">
                 <Image 
                 src={`/terror-${id}.jpg`} 
-                alt={`Juego terror ${id}`} 
+                alt={`Juego de calidad ${id}`} 
                 fill
                 className="object-cover"
                 />
             </div>
-            <h3 className="font-bold mb-3 text-lg">Juego Pirata #{id}</h3>
             
             <div className="flex flex-col gap-2 mt-auto">
                 <button className="bg-green-700 hover:bg-green-600 py-1.5 rounded text-sm font-semibold transition">Comprar</button>

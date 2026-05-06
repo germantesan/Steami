@@ -1,107 +1,110 @@
-import Image from "next/image";
-import Link from "next/link";
+'use client';
+import { useEffect, useState } from 'react';
+import { supabase } from "@/lib/supabase";
 
 export default function ColeccionPage() {
-  // --- CONFIGURACIÓN DEL JUEGO TOP (COLECCIÓN) ---
-const juegoTop = {
-    nombre: "POKEROCK",
-    foto: "/imagenes/pokerock.jpg"
-};
+  const [juegos, setJuegos] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  
+  // Ajusta este ID según tu tabla 'categoria' en Supabase (ejemplo: 8)
+  const CATEGORIA_ID = 8; 
 
-  // --- CONFIGURACIÓN DE TUS OTROS JUEGOS DE COLECCIÓN ---
-const otrosJuegos = [
-    { id: 1, nombre: "Fifo23", foto: "/imagenes/fifo.jpg" },
-    { id: 2, nombre: "PACK NO AUTORIZADO", foto: "/imagenes/coleccion-2.jpg" },
-    { id: 3, nombre: "EDICIÓN COLECCIONISTA", foto: "/imagenes/coleccion-3.jpg" },
-];
+  useEffect(() => {
+    const fetchColeccion = async () => {
+      setLoading(true);
+      const { data } = await supabase
+        .from('video_juego')
+        .select('*')
+        .eq('id_categoria', CATEGORIA_ID);
+      
+      if (data) setJuegos(data);
+      setLoading(false);
+    };
+    fetchColeccion();
+  }, []);
 
-return (
-    <div className="p-20 min-h-screen bg-gray-900 text-white text-center">
-    <h1 className="text-4xl font-bold text-yellow-500 uppercase tracking-tighter">
-        Categoría: Colección
-    </h1>
-    <p className="mt-4 text-gray-400 italic max-w-4xl mx-auto text-sm leading-relaxed">
-        &quot;Nuestros juegos no violan ninguna propiedad intelectual. Culaquier parecido con la realidad relacionada con hechos personajes, personas reales o violaciones de alguna propiedad intelectual es mera coincidencia. Si piensas que nuestros juegos violan alguna propiedad intelectual, llama al teléfono de contacto de la página de contacto para que comprendas las razones por las que nuestros juegos no violan ninguna propiedad intelectual. Si sigues pensando que nuestros juegos violan alguna propiedad intelectual está usted equivocado, pues le recordamos que nuestros juegos no violan ninguna propiedad intelectual. Todos los derechos reservados.&quot;
-    </p>
+  const principal = juegos[0];
+  const laterales = juegos.slice(1, 3);
 
-      {/* --- SECCIÓN JUEGO TOP VENTAS --- */}
-    <div className="mt-12 max-w-md mx-auto bg-gradient-to-b from-yellow-900/20 to-gray-800 p-6 rounded-2xl border border-yellow-700/50 shadow-2xl">
-        <h2 className="text-xl font-bold text-orange-500 mb-2 uppercase">
-            TOP VENTAS COLECCIÓN
-        </h2>
-
-        <h3 className="text-2xl font-extrabold text-white mb-4 uppercase tracking-tight">
-            {juegoTop.nombre}
-        </h3>
-        
-        <div className="relative w-full h-96 mb-4 overflow-hidden rounded-lg border-2 border-yellow-500 bg-black/50">
-        <Image 
-            src={juegoTop.foto} 
-            alt={juegoTop.nombre} 
-            fill
-            className="object-contain hover:scale-105 transition-transform duration-500"
-        />
-        </div>
-
-        <div className="flex flex-col gap-2">
-        <button className="bg-yellow-600 hover:bg-yellow-700 py-2 rounded font-bold transition uppercase text-sm text-black">
-            Comprar ahora
-        </button>
-        <div className="flex gap-2">
-            <button className="flex-1 bg-gray-700 hover:bg-gray-600 py-2 rounded text-xs transition">Deseados</button>
-            <button className="flex-1 bg-gray-700 hover:bg-gray-600 py-2 rounded text-xs transition">Favorito</button>
-        </div>
-        </div>
-    </div>
-
-      {/* --- OTROS JUEGOS DEL GÉNERO --- */}
-    <h2 className="text-3xl font-bold mt-20 mb-10 text-left border-b border-gray-700 pb-2 uppercase tracking-widest text-yellow-500">
-        Otras Colecciones
-    </h2>
-
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {otrosJuegos.map((juego) => (
-        <div key={juego.id} className="bg-gray-800 p-4 rounded-xl flex flex-col shadow-lg border border-gray-700 hover:border-yellow-900/50 transition">
-            
-            <h3 className="text-lg font-bold mb-4 text-orange-400 min-h-[3.5rem] flex items-center justify-center">
-                {juego.nombre}
-            </h3>
-            
-            <div className="relative w-full h-80 mb-4 overflow-hidden rounded-md bg-black/40">
-            <Image 
-                src={juego.foto} 
-                alt={juego.nombre} 
-                fill
-                className="object-contain" 
-            />
-            </div>
-            
-            <div className="flex flex-col gap-2 mt-auto">
-            <button className="bg-green-700 hover:bg-green-600 py-2 rounded text-sm font-semibold transition uppercase">
-                Comprar
-            </button>
-            <div className="grid grid-cols-2 gap-2">
-                <button className="bg-gray-700 hover:bg-gray-600 py-2 rounded text-[10px] text-gray-300 transition">
-                    Deseados
-                </button>
-                <button className="bg-gray-700 hover:bg-gray-600 py-2 rounded text-[10px] text-gray-300 transition">
-                    Favoritos
-                </button>
-            </div>
-            </div>
-        </div>
-        ))}
-
-        <div className="bg-gray-800/30 h-80 lg:h-auto min-h-[300px] p-6 rounded-xl flex items-center justify-center border-2 border-dashed border-gray-700">
-        <p className="text-gray-600 font-bold italic text-xs uppercase tracking-[0.3em] text-center leading-loose">
-            Más artículos <br/> próximamente...
+  return (
+    <div className="min-h-screen bg-[#0b121e] text-white p-6 md:p-10">
+      
+      {/* Título Estilo Colección con la frase más grande */}
+      <header className="mb-12 text-center max-w-6xl mx-auto">
+        <h1 className="text-5xl font-black text-[#facc15] uppercase tracking-tighter mb-6">
+            CATEGORÍA: COLECCIÓN
+        </h1>
+        {/* Tamaño ajustado a text-sm para mayor legibilidad */}
+        <p className="text-gray-300 italic text-sm md:text-base leading-relaxed px-4">
+            "Nuestros juegos no violan ninguna propiedad intelectual. Culaquier parecido con la realidad relacionada con hechos personajes, personas reales o violaciones de alguna propiedad intelectual es mera coincidencia. Si piensas que nuestros juegos violan alguna propiedad intelectual, llama al teléfono de contacto de la página de contacto para que comprendas las razones por las que nuestros juegos no violan ninguna propiedad intelectual. Si sigues pensando que nuestros juegos violan alguna propiedad intelectual está usted equivocado, pues le recordamos que nuestros juegos no violan ninguna propiedad intelectual. Todos los derechos reservados."
         </p>
-        </div>
-    </div>
+      </header>
 
-    <Link href="/juegos" className="inline-block mt-20 text-orange-500 hover:underline">
-        ← Volver al catálogo
-    </Link>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-[1400px] mx-auto">
+        
+        {/* JUEGO PRINCIPAL */}
+        {principal ? (
+          <div className="lg:col-span-2 relative group overflow-hidden rounded-3xl bg-black h-[600px] shadow-2xl border border-[#facc15]/20">
+            <img 
+              src={principal.imagen_portada} 
+              className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" 
+              alt={principal.titulo}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0b121e] via-transparent to-transparent z-10"></div>
+            
+            <div className="absolute bottom-0 left-0 p-10 z-20 w-full">
+              <span className="text-[#ff6600] font-black text-xs uppercase tracking-widest mb-2 block">TOP VENTAS COLECCIÓN</span>
+              <h2 className="text-6xl font-black uppercase mb-6 leading-none drop-shadow-2xl">{principal.titulo}</h2>
+              
+              <div className="flex flex-wrap gap-3">
+                <button className="bg-[#ff6600] hover:bg-[#e65c00] text-white px-8 py-3.5 rounded-xl font-black uppercase text-xs transition-transform hover:scale-105">
+                  CAPTURAR
+                </button>
+                <button className="bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 py-3.5 rounded-xl font-bold uppercase text-[10px] border border-white/5">
+                  Favoritos
+                </button>
+                <button className="bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 py-3.5 rounded-xl font-bold uppercase text-[10px] border border-white/5">
+                  Deseados
+                </button>
+                <button className="bg-blue-600/20 border border-blue-600/50 text-white px-6 py-3.5 rounded-xl font-black uppercase text-xs">
+                  Descripción
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="lg:col-span-2 h-[600px] bg-[#162031] rounded-3xl flex flex-col items-center justify-center border border-dashed border-[#facc15]/30">
+            <p className="text-gray-500 italic">Cargando la colección...</p>
+          </div>
+        )}
+
+        {/* JUEGOS LATERALES */}
+        <div className="flex flex-col gap-6 h-[600px]">
+          {laterales.length > 0 ? (
+            laterales.map((juego) => (
+              <div key={juego.id} className="relative flex-1 group overflow-hidden rounded-3xl bg-[#162031] shadow-xl border border-white/5">
+                <img src={juego.imagen_portada} className="w-full h-full object-cover opacity-70" alt={juego.titulo} />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent z-10"></div>
+                <div className="absolute bottom-0 left-0 p-5 z-20 w-full">
+                  <h3 className="text-xl font-black uppercase mb-0.5">{juego.titulo}</h3>
+                  <span className="text-[#facc15] text-[9px] font-bold uppercase tracking-widest block mb-4">EDICIÓN LIMITADA</span>
+                  
+                  <div className="grid grid-cols-2 gap-2">
+                    <button className="bg-[#008f39] text-white py-2 rounded-lg font-black uppercase text-[9px]">Comprar</button>
+                    <button className="bg-white/10 text-white py-2 rounded-lg font-bold uppercase text-[9px]">Favoritos</button>
+                    <button className="bg-white/10 text-white py-2 rounded-lg font-bold uppercase text-[9px]">Deseados</button>
+                    <button className="bg-blue-600/20 border border-blue-600 text-white py-2 rounded-lg font-black uppercase text-[9px]">Info</button>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="flex-1 bg-[#162031]/50 rounded-3xl border border-dashed border-gray-800 flex items-center justify-center italic text-gray-600 text-xs">
+              Esperando nuevos juegos
+            </div>
+          )}
+        </div>
+      </div>
     </div>
-);
+  );
 }

@@ -1,79 +1,78 @@
-import Link from "next/link";
-import { supabase } from '@/lib/supabase'; // Importamos la conexión
+'use client';
+import { useEffect, useState } from 'react';
+import { supabase } from "@/lib/supabase"; // Importamos tu conexión
+import Link from 'next/link';
 
-// Definimos la estructura del juego para TypeScript
 interface Juego {
   id: number;
   titulo: string;
   descripcion: string;
-  imagen_portada: string;
-  id_categoria: number;
+  imagen_portada: string; // Aquí viene la URL de Supabase
 }
 
-// Cambiamos la función a 'async' para poder pedir los datos
-export default async function JuegosPage() {
-  const generos = [
-    "Accion", "Supervivencia", "Terror", "Indie",
-    "Infantil", "Reflejos", "Puzles", "Coleccion"
-  ];
+export default function JuegosPage() {
+  const [juegos, setJuegos] = useState<Juego[]>([]);
+  const generos = ["Accion", "Supervivencia", "Terror", "Indie", "Infantil", "Reflejos", "Puzles", "Coleccion"];
 
-  // Llamamos a Supabase para traer los juegos
-  const { data: juegos, error } = await supabase
-    .from('video_juego')
-    .select('*');
+  useEffect(() => {
+    const leerJuegos = async () => {
+      // Llamamos a tu tabla 'video_juego'
+      const { data, error } = await supabase
+        .from('video_juego')
+        .select('*');
+
+      if (data) setJuegos(data);
+      if (error) console.error("Error cargando juegos:", error);
+    };
+    leerJuegos();
+  }, []);
 
   return (
-    <div className="p-20 text-center min-h-screen bg-white">
-      <h1 className="text-4xl font-bold text-orange-600 uppercase tracking-tighter">
+    <div className="min-h-screen bg-[#0b121e] text-white p-10">
+      
+      <header className="text-center mb-12">
+    <h1 className="text-5xl font-black text-[#ff6600] uppercase tracking-tighter mb-4">
         Catálogo de Videojuegos
-      </h1>
-      <p className="mt-4 text-gray-600 text-lg">
-        Explora la colección completa de títulos de Steami.
-      </p>
+    </h1>
+    <p className="text-gray-300 text-lg font-light">
+        Tu enciclopedia definitiva: historia, versiones y detalles de tus títulos favoritos.
+    </p>
+</header>
 
-      {/* --- SECCIÓN DE MENÚ DE GÉNEROS --- */}
-      <div className="mt-8">
-        <h2 className="text-xl font-semibold mb-4 text-gray-800">Elige un género:</h2>
-        <div className="flex flex-wrap justify-center gap-3">
-          {generos.map((genero) => (
-            <Link
-              key={genero}
-              href={`/juegos/${genero.toLowerCase()}`}
-              className="px-4 py-2 bg-orange-100 text-orange-700 rounded-full hover:bg-orange-600 hover:text-white transition-colors"
-            >
-              {genero}
-            </Link>
-          ))}
-        </div>
-      </div>
+      {/* Filtros de Género */}
+      <nav className="flex flex-wrap justify-center gap-3 mb-16">
+        {generos.map((gen) => (
+          <Link key={gen} href={`/juegos/${gen.toLowerCase()}`}>
+            <button className="px-5 py-2 bg-[#1a2436] border border-gray-700 rounded-full text-sm hover:bg-[#ff6600] transition-all">
+              {gen}
+            </button>
+          </Link>
+        ))}
+      </nav>
 
-      {/* --- SECCIÓN DINÁMICA DE JUEGOS --- */}
-      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {juegos && juegos.length > 0 ? (
-          juegos.map((juego: Juego) => (
-            <div key={juego.id} className="bg-gray-50 p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-              <div className="aspect-video mb-4 overflow-hidden rounded-lg bg-gray-200">
-                <img 
-                  src={juego.imagen_portada || 'https://via.placeholder.com/400x225?text=Sin+Imagen'} 
-                  alt={juego.titulo}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">{juego.titulo}</h3>
-              <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                {juego.descripcion}
-              </p>
-              <button className="w-full py-2 bg-orange-600 text-white font-bold rounded-lg hover:bg-orange-700 transition-colors uppercase text-sm tracking-wider">
-                Comprar Ahora
+      {/* Grid Dinámico con imágenes de Supabase */}
+      <main className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+        {juegos.map((juego) => (
+          <div key={juego.id} className="bg-[#162031] border border-gray-800 rounded-2xl overflow-hidden group">
+            <div className="h-52 bg-black overflow-hidden flex items-center justify-center">
+              {/* Usamos la columna imagen_portada de tu tabla */}
+              <img 
+                src={juego.imagen_portada} 
+                alt={juego.titulo} 
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                onError={(e) => { e.currentTarget.src = 'https://via.placeholder.com/400x225?text=Sin+Imagen'; }}
+              />
+            </div>
+            <div className="p-6 text-center">
+              <h3 className="text-2xl font-bold text-white mb-2">{juego.titulo}</h3>
+              <p className="text-gray-400 text-sm mb-6">{juego.descripcion}</p>
+              <button className="w-full bg-[#ff6600] hover:bg-[#e65c00] text-white font-bold py-3 rounded-xl uppercase text-sm">
+                Ver Detalles
               </button>
             </div>
-          ))
-        ) : (
-          <div className="col-span-full p-10 bg-gray-100 rounded-xl border-2 border-dashed border-gray-300">
-            {error ? `Error al conectar: ${error.message}` : "No se encontraron juegos en la base de datos."}
           </div>
-        )}
-      </div>
+        ))}
+      </main>
     </div>
   );
 }

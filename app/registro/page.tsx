@@ -23,7 +23,7 @@ export default function RegistroPage() {
         } else {
             setMensaje("¡Cuenta creada con éxito! Redirigiendo...");
             // Esperamos 2 segundos y lo mandamos a los juegos
-            setTimeout(() => router.push('/juegos/supervivencia'), 2000);
+            setTimeout(() => router.push('/juegos'), 2000);
         }
     };
 

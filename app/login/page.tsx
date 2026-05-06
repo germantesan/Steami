@@ -23,7 +23,7 @@ export default function LoginPage() {
         } else {
             setMensaje("¡Bienvenido! Entrando a Steami...");
             // Redirigimos a la sección de juegos
-            setTimeout(() => router.push('/juegos/supervivencia'), 1500);
+            setTimeout(() => router.push('/juegos'), 1500);
         }
     };
 

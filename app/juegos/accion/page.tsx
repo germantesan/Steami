@@ -28,7 +28,7 @@ export default function AccionPage() {
             CATEGORÍA: ACCIÓN
         </h1>
         <p className="text-gray-400 mt-1 italic text-sm">
-            "Si te gusta la adrenalina pura y el combate sin tregua, disfruta."
+            "BOOM, BOOM, PEW, PEW"
         </p>
       </header>
 

@@ -11,7 +11,7 @@ const juegoTop = {
   // --- CONFIGURACIÓN DE TUS OTROS JUEGOS DE ACCIÓN ---
 const otrosJuegos = [
     { id: 1, nombre: "TRENECITO y explosiones SIMULATOR", foto: "/imagenes/trenecitobum.jpg" },
-    { id: 2, nombre: "JUEGO DE TIROS 2", foto: "/imagenes/accion-2.jpg" },
+    { id: 2, nombre: "WATERFIELD", foto: "/imagenes/waterfield.jpg" },
     { id: 3, nombre: "JUEGO DE TIROS 3", foto: "/imagenes/accion-3.jpg" },
 ];
 

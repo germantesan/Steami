@@ -10,7 +10,7 @@ export default function ReflejosPage() {
 
     // --- CONFIGURACIÓN DE TUS OTROS JUEGOS DE REFLEJOS ---
     const otrosJuegos = [
-        { id: 1, nombre: "ESQUIVA EL CRASH", foto: "/imagenes/reflejos-1.jpg" },
+        { id: 1, nombre: "TRENECITO y explosiones SIMULATOR", foto: "/imagenes/trenecitobum.jpg" },
         { id: 2, nombre: "PIANO TILES PIRATA", foto: "/imagenes/reflejos-2.jpg" },
         { id: 3, nombre: "REACCIÓN BINARIA", foto: "/imagenes/reflejos-3.jpg" },
     ];

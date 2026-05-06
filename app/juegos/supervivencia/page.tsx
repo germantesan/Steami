@@ -10,7 +10,7 @@ export default function SupervivenciaPage() {
 
     // --- CONFIGURACIÓN DE TUS OTROS JUEGOS DE SUPERVIVENCIA ---
     const otrosJuegos = [
-        { id: 1, nombre: "ARK-ANSAS DINOS", foto: "/imagenes/supervivencia-1.jpg" },
+        { id: 1, nombre: "TRENECITO y explosiones SIMULATOR", foto: "/imagenes/trenecitobum.jpg" },
         { id: 2, nombre: "SIN COMIDA 2D", foto: "/imagenes/supervivencia-2.jpg" },
         { id: 3, nombre: "ISLA DESIERTA SIMULATOR", foto: "/imagenes/supervivencia-3.jpg" },
     ];
@@ -27,7 +27,7 @@ export default function SupervivenciaPage() {
             {/* --- SECCIÓN JUEGO TOP VENTAS --- */}
             <div className="mt-12 max-w-md mx-auto bg-gradient-to-b from-lime-900/20 to-gray-800 p-6 rounded-2xl border border-lime-900/50 shadow-2xl">
                 <h2 className="text-xl font-bold text-orange-500 mb-2 uppercase">
-                     TOP VENTAS SUPERVIVENCIA
+                    TOP VENTAS SUPERVIVENCIA
                 </h2>
 
                 <h3 className="text-2xl font-extrabold text-white mb-4 uppercase tracking-tight">

@@ -10,7 +10,7 @@ export default function IndiePage() {
 
     // --- CONFIGURACIÓN DE TUS OTROS JUEGOS INDIE ---
     const otrosJuegos = [
-        { id: 1, nombre: "PIXELS SIN PERMISO", foto: "/imagenes/indie-1.jpg" },
+        { id: 1, nombre: "TRENECITO y explosiones SIMULATOR", foto: "/trenecitobum.jpg" },
         { id: 2, nombre: "ARTE ABSTRACTO PIRATA", foto: "/imagenes/indie-2.jpg" },
         { id: 3, nombre: "CÓDIGO DE GARAJE", foto: "/imagenes/indie-3.jpg" },
     ];

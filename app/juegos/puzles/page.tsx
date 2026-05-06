@@ -10,7 +10,7 @@ export default function PuzzlePage() {
 
     // --- CONFIGURACIÓN DE TUS OTROS JUEGOS DE PUZLES ---
     const otrosJuegos = [
-        { id: 1, nombre: "BUSCAMINAS REMASTERED", foto: "/imagenes/puzles-1.jpg" },
+        { id: 1, nombre: "TRENECITO y explosiones SIMULATOR", foto: "/imagenes/trenecitobum.jpg" },
         { id: 2, nombre: "CUBO DE RUBIK DIGITAL", foto: "/imagenes/puzles-2.jpg" },
         { id: 3, nombre: "SUDOKU EXTREMO PIRATA", foto: "/imagenes/puzles-3.jpg" },
     ];

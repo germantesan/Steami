@@ -1,95 +1,43 @@
 'use client';
-import { useState } from 'react';
+import Link from 'next/link';
 
-export default function PaginaSteami() {
-  const [nombre, setNombre] = useState('');
-  const [mensajeServidor, setMensajeServidor] = useState('');
-
-  const crearUsuarioWeb = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const res = await fetch('/api/usuarios', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nombre: nombre, rol: 'estudiante' }),
-    });
-    const data = await res.json();
-    setMensajeServidor(data.status);
-    setNombre('');
-  };
-
+export default function Home() {
   return (
-    <div style={{ 
-      backgroundColor: '#1b2838', 
-      color: '#c7d5e0', 
-      minHeight: '100vh', 
-      display: 'flex', 
-      flexDirection: 'column', 
-      alignItems: 'center', 
-      justifyContent: 'center',
-      fontFamily: 'Arial, sans-serif' 
-    }}>
-      <h1 style={{ color: '#66c0f4', fontSize: '3rem' }}>STEAMI</h1>
-      <p>Panel de Administración de Usuarios</p>
+    <div className="min-h-screen bg-[#0b121e] text-white flex flex-col items-center justify-center p-6">
+      
+      {/* Título Principal */}
+      <h1 className="text-6xl font-bold mb-2 text-blue-400 tracking-tighter">STEAMI</h1>
+      <p className="text-gray-400 mb-10 text-lg">Tu enciclopedia de videojuegos definitiva</p>
 
-      <form onSubmit={crearUsuarioWeb} style={{ 
-        backgroundColor: '#2a475e', 
-        padding: '30px', 
-        borderRadius: '10px', 
-        boxShadow: '0 4px 15px rgba(0,0,0,0.5)' 
-      }}>
-        <input
-  type="text"
-  placeholder="Nombre del nuevo gamer..."
-  value={nombre}
-  onChange={(e) => setNombre(e.target.value)}
-  spellCheck="false" // Desactiva la línea roja
-  style={{ 
-    padding: '12px', 
-    borderRadius: '4px', 
-    border: 'none', 
-    marginRight: '10px', 
-    width: '250px',
-    backgroundColor: '#c7d5e0', 
-    color: '#000000',           
-    outline: 'none'             
-  }}
-  required
-/>
-        <button type="submit" style={{ 
-          padding: '12px 20px', 
-          backgroundColor: '#4caf50', 
-          color: 'white', 
-          border: 'none', 
-          borderRadius: '4px', 
-          cursor: 'pointer',
-          fontWeight: 'bold'
-        }}>
-          Añadir Usuario
+      {/* Contenedor de Botones */}
+      <div className="bg-[#162031] p-10 rounded-2xl shadow-2xl border border-gray-700 w-full max-w-md flex flex-col gap-6">
+        <h2 className="text-xl font-semibold text-center mb-2 text-gray-200 font-sans">Panel de Acceso</h2>
+        
+        {/* Botón para ir al Registro que ya creamos */}
+        <Link href="/registro">
+          <button className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-blue-900/20 active:scale-95 font-sans">
+            CREAR NUEVA CUENTA
+          </button>
+        </Link>
+
+        {/* Botón para el Login (Ingresar) */}
+        <Link href="/login">
+          <button className="w-full bg-transparent border-2 border-blue-500 hover:bg-blue-500/10 text-blue-400 font-bold py-4 rounded-xl transition-all active:scale-95 font-sans">
+            INICIAR SESIÓN
+          </button>
+        </Link>
+
+        <p className="text-[10px] text-gray-500 text-center mt-4 uppercase tracking-widest font-sans">
+          Plataforma de Desarrollo de Aplicaciones
+        </p>
+      </div>
+
+      {/* Botón de ayuda para testeo rápido */}
+      <div className="mt-12">
+        <button className="text-xs text-blue-400/50 border border-blue-400/20 px-4 py-2 rounded hover:bg-blue-400/5 transition font-sans">
+          Probar conexión GET
         </button>
-      </form>
-
-      {mensajeServidor && (
-        <div style={{ 
-          marginTop: '20px', 
-          padding: '10px', 
-          backgroundColor: 'rgba(76, 175, 80, 0.2)', 
-          border: '1px solid #4caf50',
-          borderRadius: '5px' 
-        }}>
-          {mensajeServidor}
-        </div>
-      )}
-
-      <button 
-        onClick={async () => {
-          const res = await fetch('/api/saludo');
-          const data = await res.json();
-          alert("Respuesta del servidor: " + data.mensaje);
-        }}
-        style={{ marginTop: '40px', background: 'none', border: '1px solid #66c0f4', color: '#66c0f4', cursor: 'pointer', padding: '5px 10px' }}
-      >
-        Probar conexión GET
-      </button>
+      </div>
     </div>
   );
 }

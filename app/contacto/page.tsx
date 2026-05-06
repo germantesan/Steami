@@ -11,7 +11,7 @@ export default function ContactoPage() {
             Contacto
           </h1>
           <p className="text-gray-400 text-lg font-medium">
-            ¿Alguna duda sobre la enciclopedia? Estamos a un clic de distancia.
+            ¿Alguna duda sobre la enciclopedia? No es asunto nuestro.
           </p>
         </div>
 
@@ -45,7 +45,7 @@ export default function ContactoPage() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                 </span>
-                <p className="text-2xl font-bold">Disponible 24/7</p>
+                <p className="text-2xl font-bold">Disponible 0/7</p>
               </div>
             </div>
           </div>

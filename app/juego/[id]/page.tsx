@@ -5,7 +5,7 @@ import { supabase } from "@/lib/supabase";
 
 export default function DetalleJuego() {
   const params = useParams();
-  const id = params?.id; // Captura el ID de la URL automáticamente
+  const id = params?.id; 
   const router = useRouter();
   const [juego, setJuego] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -16,7 +16,6 @@ export default function DetalleJuego() {
     const fetchJuego = async () => {
       setLoading(true);
       try {
-        // Buscamos el juego específico por su ID en Supabase
         const { data, error } = await supabase
           .from('video_juego')
           .select('*')
@@ -27,7 +26,7 @@ export default function DetalleJuego() {
           setJuego(data);
         }
       } catch (err) {
-        console.error("Error al conectar con la base de datos:", err);
+        console.error("Error de conexión:", err);
       }
       setLoading(false);
     };
@@ -37,83 +36,94 @@ export default function DetalleJuego() {
 
   if (loading) return (
     <div className="min-h-screen bg-[#0b121e] flex items-center justify-center text-white font-black uppercase tracking-widest">
-      Cargando detalles en SteamI Pro...
+      Cargando en SteamI Pro...
     </div>
   );
 
   if (!juego) return (
-    <div className="min-h-screen bg-[#0b121e] flex flex-col items-center justify-center text-white">
+    <div className="min-h-screen bg-[#0b121e] flex flex-col items-center justify-center text-white p-10 text-center">
       <h1 className="text-4xl font-black mb-6 uppercase">Juego no encontrado</h1>
       <button 
         onClick={() => router.back()} 
         className="bg-[#ff4b2b] px-8 py-3 rounded-2xl font-bold uppercase hover:scale-105 transition-transform"
       >
-        Volver atrás
+        Volver a la tienda
       </button>
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-[#0b121e] text-white">
+    <div className="min-h-screen bg-[#0b121e] text-white font-sans">
       
-      {/* BOTÓN REGRESAR */}
-      <button 
-        onClick={() => router.back()}
-        className="fixed top-8 left-8 z-50 bg-white/10 hover:bg-white/20 backdrop-blur-xl px-6 py-3 rounded-2xl border border-white/10 font-black flex items-center gap-2 transition-all active:scale-95 text-xs tracking-widest"
-      >
-        <span>←</span> REGRESAR
-      </button>
-
-      <div className="relative w-full min-h-screen flex items-center justify-center p-6 md:p-20 overflow-hidden">
-        
-        {/* FONDO DECORATIVO DIFUMINADO */}
-        <div className="absolute inset-0 z-0">
-          <img src={juego.imagen_portada} className="w-full h-full object-cover blur-[100px] opacity-20 scale-110" alt="" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0b121e] to-[#0b121e]"></div>
+      {/* HEADER SUPERIOR */}
+      <header className="border-b border-white/5 bg-[#080d14] sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <button 
+                onClick={() => router.back()}
+                className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 font-bold text-sm"
+            >
+                <span className="text-lg">←</span> VOLVER A LA BIBLIOTECA
+            </button>
+            <span className="text-xs font-black text-[#ff4b2b] uppercase tracking-widest">SteamI Pro Detail</span>
         </div>
+      </header>
 
-        <div className="relative z-10 flex flex-col lg:flex-row items-center gap-16 max-w-[1400px] w-full">
+      {/* CONTENIDO PRINCIPAL */}
+      <main className="max-w-7xl mx-auto p-6 md:p-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
           
-          {/* LADO IZQUIERDO: IMAGEN GIGANTE Y COMPLETA */}
-          <div className="w-full lg:w-1/2">
-            <div className="rounded-[40px] overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.6)] border border-white/10">
+          {/* COLUMNA IZQUIERDA: IMAGEN Y BOTONES */}
+          <div className="md:col-span-5 space-y-6">
+            
+            <div className="rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-black">
               <img 
                 src={juego.imagen_portada} 
-                className="w-full h-auto object-contain bg-black/20" 
+                className="w-full h-auto object-cover aspect-[3/4]" 
                 alt={juego.titulo} 
               />
             </div>
-          </div>
 
-          {/* LADO DERECHO: TÍTULO, DESCRIPCIÓN Y BOTONES */}
-          <div className="w-full lg:w-1/2 space-y-8 text-center lg:text-left">
-            <h1 className="text-7xl lg:text-9xl font-black uppercase tracking-tighter leading-none drop-shadow-2xl">
-              {juego.titulo}
-            </h1>
-            
-            <div className="space-y-4">
-              <h3 className="text-[#ff4b2b] font-black uppercase tracking-widest text-sm italic">Descripción del juego</h3>
-              <p className="text-xl text-gray-300 leading-relaxed font-medium">
-                {juego.descripcion || "Explora este increíble título en SteamI Pro. Vive la mejor experiencia de juego con gráficos de última generación."}
-              </p>
-            </div>
-
-            {/* BOTONERA DE ACCIÓN */}
-            <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-6">
-              <button className="bg-[#ff4b2b] hover:bg-[#ff6a4d] text-white px-12 py-5 rounded-3xl font-black uppercase text-lg transition-all hover:-translate-y-1 shadow-lg shadow-red-500/20">
+            {/* BOTONERA DEBAJO DE LA IMAGEN */}
+            <div className="flex flex-col gap-3">
+              <button className="w-full bg-[#ff4b2b] hover:bg-[#ff6a4d] text-white py-4 rounded-xl font-black uppercase text-center transition-all active:scale-[0.98]">
                 COMPRAR AHORA
               </button>
-              <button className="bg-white/5 hover:bg-white/10 backdrop-blur-md px-8 py-5 rounded-3xl font-black uppercase text-xs border border-white/10 transition-all">
-                Favoritos
-              </button>
-              <button className="bg-white/5 hover:bg-white/10 backdrop-blur-md px-8 py-5 rounded-3xl font-black uppercase text-xs border border-white/10 transition-all">
-                Deseados
-              </button>
+              
+              <div className="grid grid-cols-2 gap-3">
+                <button className="bg-[#162031] hover:bg-[#1f293a] px-4 py-3 rounded-xl font-bold uppercase text-[10px] border border-white/5 text-center">
+                  Favoritos
+                </button>
+                <button className="bg-[#162031] hover:bg-[#1f293a] px-4 py-3 rounded-xl font-bold uppercase text-[10px] border border-white/5 text-center">
+                  Lista de Deseos
+                </button>
+              </div>
             </div>
+          </div>
+
+          {/* COLUMNA DERECHA: TEXTOS */}
+          <div className="md:col-span-7 space-y-8 pt-2">
+            
+            <div>
+              <span className="text-[#ff4b2b] font-black uppercase tracking-[0.3em] text-xs block mb-2 italic">
+                Título Oficial
+              </span>
+              <h1 className="text-5xl md:text-6xl font-black uppercase tracking-tighter leading-tight text-white">
+                {juego.titulo}
+              </h1>
+              <div className="h-1 w-20 bg-[#ff4b2b] mt-4 rounded-full"></div>
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="text-gray-400 font-bold uppercase tracking-widest text-xs italic">Sinopsis del Juego</h3>
+              <p className="text-lg md:text-xl text-gray-300 leading-relaxed font-medium bg-[#0f172a] p-6 rounded-2xl border border-white/5">
+                {juego.descripcion || "Este increíble título te espera en SteamI Pro. Vive una aventura única con gráficos espectaculares y una jugabilidad adictiva."}
+              </p>
+            </div>
+            
           </div>
 
         </div>
-      </div>
+      </main>
     </div>
   );
-}3
+}

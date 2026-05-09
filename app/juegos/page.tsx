@@ -1,13 +1,13 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { supabase } from "@/lib/supabase"; // Importamos tu conexión
+import { supabase } from "@/lib/supabase"; 
 import Link from 'next/link';
 
 interface Juego {
   id: number;
   titulo: string;
   descripcion: string;
-  imagen_portada: string; // Aquí viene la URL de Supabase
+  imagen_portada: string; 
 }
 
 export default function JuegosPage() {
@@ -16,7 +16,6 @@ export default function JuegosPage() {
 
   useEffect(() => {
     const leerJuegos = async () => {
-      // Llamamos a tu tabla 'video_juego'
       const { data, error } = await supabase
         .from('video_juego')
         .select('*');
@@ -30,14 +29,15 @@ export default function JuegosPage() {
   return (
     <div className="min-h-screen bg-[#0b121e] text-white p-10">
       
-      <header className="text-center mb-12">
-    <h1 className="text-5xl font-black text-[#ff6600] uppercase tracking-tighter mb-4">
-        Catálogo de Videojuegos
-    </h1>
-    <p className="text-gray-300 text-lg font-light">
-        Tu enciclopedia definitiva: historia, versiones y detalles de tus títulos favoritos.
-    </p>
-</header>
+      {/* Añadimos el id="catalogo" para que el botón de volver del checkout funcione */}
+      <header id="catalogo" className="text-center mb-12">
+        <h1 className="text-5xl font-black text-[#ff6600] uppercase tracking-tighter mb-4">
+            Catálogo de Videojuegos
+        </h1>
+        <p className="text-gray-300 text-lg font-light">
+            Tu enciclopedia definitiva: historia, versiones y detalles de tus títulos favoritos.
+        </p>
+      </header>
 
       {/* Filtros de Género */}
       <nav className="flex flex-wrap justify-center gap-3 mb-16">
@@ -50,25 +50,32 @@ export default function JuegosPage() {
         ))}
       </nav>
 
-      {/* Grid Dinámico con imágenes de Supabase */}
+      {/* Grid Dinámico */}
       <main className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
         {juegos.map((juego) => (
           <div key={juego.id} className="bg-[#162031] border border-gray-800 rounded-2xl overflow-hidden group">
             <div className="h-52 bg-black overflow-hidden flex items-center justify-center">
-              {/* Usamos la columna imagen_portada de tu tabla */}
-              <img 
-                src={juego.imagen_portada} 
-                alt={juego.titulo} 
+              <img
+                src={juego.imagen_portada}
+                alt={juego.titulo}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 onError={(e) => { e.currentTarget.src = 'https://via.placeholder.com/400x225?text=Sin+Imagen'; }}
               />
             </div>
             <div className="p-6 text-center">
               <h3 className="text-2xl font-bold text-white mb-2">{juego.titulo}</h3>
-              <p className="text-gray-400 text-sm mb-6">{juego.descripcion}</p>
-              <button className="w-full bg-[#ff6600] hover:bg-[#e65c00] text-white font-bold py-3 rounded-xl uppercase text-sm">
-                Ver Detalles
-              </button>
+              <p className="text-gray-400 text-sm mb-6 line-clamp-2">{juego.descripcion}</p>
+              
+              {/* 
+                CORRECCIÓN: Envolvemos el botón en un Link.
+                Asegúrate de que tu carpeta de detalles se llame "juego" en minúsculas.
+              */}
+              <Link href={`/juego/${juego.id}`}>
+                <button className="w-full bg-[#ff6600] hover:bg-[#e65c00] text-white font-bold py-3 rounded-xl uppercase text-sm transition-colors">
+                  Ver Detalles
+                </button>
+              </Link>
+
             </div>
           </div>
         ))}

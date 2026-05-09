@@ -1,129 +1,117 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import { supabase } from "@/lib/supabase";
+import { useParams, useRouter } from 'next/navigation';
 
-export default function DetalleJuego() {
-  const params = useParams();
-  const id = params?.id; 
+export default function DetalleJuegoPage() {
+  const { id } = useParams();
   const router = useRouter();
   const [juego, setJuego] = useState<any>(null);
+  const [esFavorito, setEsFavorito] = useState(false);
+  const [enCarrito, setEnCarrito] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!id) return;
-
     const fetchJuego = async () => {
-      setLoading(true);
-      try {
-        const { data, error } = await supabase
-          .from('video_juego')
-          .select('*')
-          .eq('id', id)
-          .maybeSingle();
+      // Obtenemos los datos incluyendo la nueva columna 'precio'
+      const { data } = await supabase
+        .from('video_juego')
+        .select('*')
+        .eq('id', id)
+        .single();
+      
+      if (data) {
+        setJuego(data);
         
-        if (data) {
-          setJuego(data);
-        }
-      } catch (err) {
-        console.error("Error de conexión:", err);
+        const favoritos = JSON.parse(localStorage.getItem('favoritos') || '[]');
+        setEsFavorito(favoritos.some((fav: any) => fav.id === data.id));
+
+        const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
+        setEnCarrito(carrito.some((item: any) => item.id === data.id));
       }
       setLoading(false);
     };
-
-    fetchJuego();
+    if (id) fetchJuego();
   }, [id]);
 
-  if (loading) return (
-    <div className="min-h-screen bg-[#0b121e] flex items-center justify-center text-white font-black uppercase tracking-widest">
-      Cargando en SteamI Pro...
-    </div>
-  );
+  const agregarAlCarrito = () => {
+    const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
+    if (!enCarrito) {
+      carrito.push({
+        id: juego.id,
+        titulo: juego.titulo,
+        imagen_portada: juego.imagen_portada,
+        precio: juego.precio || 0 // Guardamos el precio real
+      });
+      localStorage.setItem('carrito', JSON.stringify(carrito));
+      setEnCarrito(true);
+    }
+  };
 
-  if (!juego) return (
-    <div className="min-h-screen bg-[#0b121e] flex flex-col items-center justify-center text-white p-10 text-center">
-      <h1 className="text-4xl font-black mb-6 uppercase">Juego no encontrado</h1>
-      <button 
-        onClick={() => router.back()} 
-        className="bg-[#ff4b2b] px-8 py-3 rounded-2xl font-bold uppercase hover:scale-105 transition-transform"
-      >
-        Volver a la tienda
-      </button>
-    </div>
-  );
+  const toggleFavorito = () => {
+    let favoritos = JSON.parse(localStorage.getItem('favoritos') || '[]');
+    if (esFavorito) {
+      favoritos = favoritos.filter((fav: any) => fav.id !== juego.id);
+    } else {
+      favoritos.push({ id: juego.id, titulo: juego.titulo, imagen_portada: juego.imagen_portada });
+    }
+    localStorage.setItem('favoritos', JSON.stringify(favoritos));
+    setEsFavorito(!esFavorito);
+  };
+
+  if (loading) return <div className="min-h-screen bg-[#0b121e] flex items-center justify-center text-[#ff6600] font-black uppercase tracking-widest text-xl">Cargando...</div>;
+  if (!juego) return <div className="min-h-screen bg-[#0b121e] flex items-center justify-center text-white text-xl">Juego no encontrado</div>;
 
   return (
-    <div className="min-h-screen bg-[#0b121e] text-white font-sans">
-      
-      {/* HEADER SUPERIOR */}
-      <header className="border-b border-white/5 bg-[#080d14] sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <button 
-                onClick={() => router.back()}
-                className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 font-bold text-sm"
-            >
-                <span className="text-lg">←</span> VOLVER A LA BIBLIOTECA
-            </button>
-            <span className="text-xs font-black text-[#ff4b2b] uppercase tracking-widest">SteamI Pro Detail</span>
-        </div>
-      </header>
+    <div className="min-h-screen bg-[#0b121e] text-white p-6 md:p-12">
+      <button 
+        onClick={() => router.back()} 
+        className="text-[10px] font-black text-gray-500 hover:text-[#ff6600] mb-8 inline-block uppercase tracking-[0.3em] transition-all"
+      >
+        ← Volver a la categoría
+      </button>
 
-      {/* CONTENIDO PRINCIPAL */}
-      <main className="max-w-7xl mx-auto p-6 md:p-12">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+        <div className="space-y-6">
+          <div className="rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl bg-white shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+            <img src={juego.imagen_portada} alt={juego.titulo} className="w-full object-contain aspect-square" />
+          </div>
           
-          {/* COLUMNA IZQUIERDA: IMAGEN Y BOTONES */}
-          <div className="md:col-span-5 space-y-6">
-            
-            <div className="rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-black">
-              <img 
-                src={juego.imagen_portada} 
-                className="w-full h-auto object-cover aspect-[3/4]" 
-                alt={juego.titulo} 
-              />
-            </div>
+          <button 
+            onClick={agregarAlCarrito}
+            disabled={enCarrito}
+            className={`w-full py-5 rounded-2xl font-black uppercase tracking-widest text-lg transition-all shadow-2xl active:scale-95 ${
+              enCarrito 
+              ? 'bg-green-600/20 border border-green-500/50 text-green-500 cursor-default' 
+              : 'bg-[#ff6600] hover:bg-[#ff8533] text-white shadow-[0_10px_30px_rgba(255,102,0,0.3)]'
+            }`}
+          >
+            {enCarrito ? '✓ Añadido al Carrito' : 'Añadir al Carrito'}
+          </button>
 
-            {/* BOTONERA DEBAJO DE LA IMAGEN */}
-            <div className="flex flex-col gap-3">
-              <button className="w-full bg-[#ff4b2b] hover:bg-[#ff6a4d] text-white py-4 rounded-xl font-black uppercase text-center transition-all active:scale-[0.98]">
-                COMPRAR AHORA
-              </button>
-              
-              <div className="grid grid-cols-2 gap-3">
-                <button className="bg-[#162031] hover:bg-[#1f293a] px-4 py-3 rounded-xl font-bold uppercase text-[10px] border border-white/5 text-center">
-                  Favoritos
-                </button>
-                <button className="bg-[#162031] hover:bg-[#1f293a] px-4 py-3 rounded-xl font-bold uppercase text-[10px] border border-white/5 text-center">
-                  Lista de Deseos
-                </button>
-              </div>
+          <div className="grid grid-cols-2 gap-4">
+            <button 
+              onClick={toggleFavorito}
+              className={`py-4 rounded-xl font-bold uppercase text-xs transition-all border ${
+                esFavorito ? 'bg-[#ff6600] border-[#ff6600] text-white' : 'bg-[#162031] border-white/10 text-gray-400 hover:border-white/30'
+              }`}
+            >
+              {esFavorito ? '❤️ En Favoritos' : 'Añadir a Favoritos'}
+            </button>
+            
+            {/* VISOR DE PRECIO CON DECIMALES */}
+            <div className="bg-[#162031] border border-white/10 py-4 rounded-xl font-black uppercase text-sm text-[#ff6600] flex items-center justify-center shadow-inner">
+              {juego.precio !== null ? `${Number(juego.precio).toFixed(2)} €` : '0.00 €'}
             </div>
           </div>
-
-          {/* COLUMNA DERECHA: TEXTOS */}
-          <div className="md:col-span-7 space-y-8 pt-2">
-            
-            <div>
-              <span className="text-[#ff4b2b] font-black uppercase tracking-[0.3em] text-xs block mb-2 italic">
-                Título Oficial
-              </span>
-              <h1 className="text-5xl md:text-6xl font-black uppercase tracking-tighter leading-tight text-white">
-                {juego.titulo}
-              </h1>
-              <div className="h-1 w-20 bg-[#ff4b2b] mt-4 rounded-full"></div>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="text-gray-400 font-bold uppercase tracking-widest text-xs italic">Sinopsis del Juego</h3>
-              <p className="text-lg md:text-xl text-gray-300 leading-relaxed font-medium bg-[#0f172a] p-6 rounded-2xl border border-white/5">
-                {juego.descripcion || "Este increíble título te espera en SteamI Pro. Vive una aventura única con gráficos espectaculares y una jugabilidad adictiva."}
-              </p>
-            </div>
-            
-          </div>
-
         </div>
-      </main>
+
+        <div className="pt-4">
+          <span className="text-[#ff6600] font-black uppercase tracking-[0.3em] text-[10px]">Información Oficial</span>
+          <h1 className="text-7xl font-black uppercase tracking-tighter mb-8 leading-none italic">{juego.titulo}</h1>
+          <p className="text-xl text-gray-300 leading-relaxed font-light">{juego.descripcion || "Descripción no disponible."}</p>
+        </div>
+      </div>
     </div>
   );
 }

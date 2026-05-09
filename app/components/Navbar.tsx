@@ -1,15 +1,15 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { supabase } from "@/lib/supabase";
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link'; // <--- ESTA ES LA LÍNEA QUE FALTA
+import { useRouter, usePathname } from 'next/navigation';
 
 export default function Navbar() {
     const [userEmail, setUserEmail] = useState<string | null>(null);
     const router = useRouter();
+    const pathname = usePathname();
 
     useEffect(() => {
-        // 1. Verificar si hay un usuario al cargar la página
         const obtenerUsuario = async () => {
             const { data: { user } } = await supabase.auth.getUser();
             if (user) setUserEmail(user.email ?? null);
@@ -17,7 +17,6 @@ export default function Navbar() {
 
         obtenerUsuario();
 
-        // 2. Escuchar cambios en la sesión (Login/Logout)
         const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
             if (session) {
                 setUserEmail(session.user.email ?? null);
@@ -31,13 +30,11 @@ export default function Navbar() {
 
     const cerrarSesion = async () => {
         await supabase.auth.signOut();
-        router.push('/'); // Al cerrar sesión, volvemos al inicio
+        router.push('/');
     };
 
-    // ... (mismo código de arriba hasta el return)
-
     return (
-        <nav className="bg-[#0b121e] border-b border-gray-800 p-4 flex justify-between items-center shadow-md">
+        <nav className="bg-[#0b121e] border-b border-gray-800 p-4 flex justify-between items-center shadow-md sticky top-0 z-50">
             {/* Logo de Steami */}
             <Link href="/" className="text-2xl font-bold text-[#ff6600] tracking-tighter">
                 STEAMI<span className="text-white">PRO</span>
@@ -45,16 +42,40 @@ export default function Navbar() {
 
             {/* Enlaces y Estado de Usuario */}
             <div className="flex items-center gap-8">
-                {/* Cambiamos text-white para que se vea siempre */}
-                <Link href="/" className="text-white hover:text-[#ff6600] transition-colors font-medium">
+                <Link href="/" className={`hover:text-[#ff6600] transition-colors font-medium ${pathname === '/' ? 'text-[#ff6600]' : 'text-white'}`}>
                     Inicio
                 </Link>
-                <Link href="/juegos" className="text-white hover:text-[#ff6600] transition-colors font-medium">
+                <Link href="/juegos" className={`hover:text-[#ff6600] transition-colors font-medium ${pathname === '/juegos' ? 'text-[#ff6600]' : 'text-white'}`}>
                     Juegos
                 </Link>
-                <Link href="/contacto" className="text-white hover:text-[#ff6600] transition-colors font-medium">
+                <Link href="/contacto" className={`hover:text-[#ff6600] transition-colors font-medium ${pathname === '/contacto' ? 'text-[#ff6600]' : 'text-white'}`}>
                     Contacto
                 </Link>
+
+                {/* BOTONES DE FAVORITOS Y CARRITO */}
+                <div className="flex items-center gap-3">
+                    <Link 
+                        href="/favoritos" 
+                        className={`px-4 py-1.5 rounded-full border transition-all font-bold text-[10px] tracking-widest ${
+                            pathname === '/favoritos' 
+                            ? 'bg-[#ff6600] border-[#ff6600] text-white shadow-[0_0_15px_rgba(255,102,0,0.3)]' 
+                            : 'border-[#ff6600]/40 text-[#ff6600] hover:bg-[#ff6600] hover:text-white'
+                        }`}
+                    >
+                        ❤️ FAVORITOS
+                    </Link>
+
+                    <Link 
+                        href="/carrito" 
+                        className={`flex items-center gap-2 px-4 py-1.5 rounded-full border transition-all font-bold text-[10px] tracking-widest ${
+                            pathname === '/carrito' 
+                            ? 'bg-white border-white text-black shadow-[0_0_15px_rgba(255,255,255,0.2)]' 
+                            : 'border-white/20 text-white hover:bg-white hover:text-black'
+                        }`}
+                    >
+                        🛒 CARRITO
+                    </Link>
+                </div>
 
                 {userEmail ? (
                     <div className="flex items-center gap-4 ml-4 border-l border-gray-700 pl-6">

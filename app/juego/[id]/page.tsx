@@ -13,7 +13,6 @@ export default function DetalleJuegoPage() {
 
   useEffect(() => {
     const fetchJuego = async () => {
-      // CORRECCIÓN: Filtramos por 'identificación' para coincidir con tu DB restaurada
       const { data } = await supabase
         .from('video_juego')
         .select('*')
@@ -38,7 +37,7 @@ export default function DetalleJuegoPage() {
     const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
     if (!enCarrito) {
       carrito.push({
-        id: juego.identificación, // Usamos la columna con tilde
+        id: juego.identificación,
         titulo: juego.titulo,
         imagen_portada: juego.imagen_portada,
         precio: juego.precio || 0 
@@ -77,7 +76,8 @@ export default function DetalleJuegoPage() {
 
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
         <div className="space-y-6">
-          <div className="rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl bg-white shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+          {/* AQUÍ ESTÁ EL CAMBIO: de bg-white a bg-[#0b121e] */}
+          <div className="rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl bg-[#0b121e] shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
             <img src={juego.imagen_portada} alt={juego.titulo} className="w-full object-contain aspect-square" />
           </div>
           

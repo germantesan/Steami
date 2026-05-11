@@ -27,7 +27,7 @@ export default function AccionPage() {
     <div className="min-h-screen bg-[#0b121e] text-white p-6 md:p-10 font-sans">
       <header className="mb-10">
         <h1 className="text-4xl font-black text-[#ff4b2b] uppercase tracking-tight">CATEGORÍA: ACCIÓN</h1>
-        <p className="text-gray-400 mt-2 italic text-sm">"Donde cada segundo cuenta y la adrenalina es la ley."</p>
+        <p className="text-gray-400 mt-2 italic text-sm">"pew, pew, boom, boom."</p>
       </header>
 
       {loading ? (

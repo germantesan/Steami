@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from "@/lib/supabase";
 import Link from 'next/link';
 
-export default function SupervivenciaPage() {
+export default function TerrorPage() {
   const [juegos, setJuegos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   
@@ -27,12 +27,12 @@ export default function SupervivenciaPage() {
   return (
     <div className="min-h-screen bg-[#0b121e] text-white p-6 md:p-10">
       <header className="mb-10">
-        <h1 className="text-4xl font-black text-[#ff4b2b] uppercase tracking-tight">CATEGORÍA: SUPERVIVENCIA</h1>
+        <h1 className="text-4xl font-black text-[#ff4b2b] uppercase tracking-tight">CATEGORÍA: TERROR</h1>
         <p className="text-gray-400 mt-2 italic text-sm">"No solo se trata de jugar, se trata de resistir."</p>
       </header>
 
       {loading ? (
-        <div className="text-center p-20 animate-pulse font-black text-[#ff4b2b]">CARGANDO SUPERVIVENCIA...</div>
+        <div className="text-center p-20 animate-pulse font-black text-[#ff4b2b]">CARGANDO TERROR...</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-[1400px] mx-auto">
           {juegos.map((juego, index) => {

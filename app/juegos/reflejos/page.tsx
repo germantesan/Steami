@@ -28,7 +28,7 @@ export default function ReflejosPage() {
     <div className="min-h-screen bg-[#0b121e] text-white p-6 md:p-10">
       <header className="mb-10">
         <h1 className="text-4xl font-black text-[#ff4b2b] uppercase tracking-tight">CATEGORÍA: REFLEJOS</h1>
-        <p className="text-gray-400 mt-2 italic text-sm">"No solo se trata de jugar, se trata de resistir."</p>
+        <p className="text-gray-400 mt-2 italic text-sm">"Juegos tan dificiles que no se los han pasado ni sus creadores con chetos. No garantizamos que el final del gameplay compile correctamnete."</p>
       </header>
 
       {loading ? (

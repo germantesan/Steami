@@ -28,7 +28,7 @@ export default function IndiePage() {
     <div className="min-h-screen bg-[#0b121e] text-white p-6 md:p-10">
       <header className="mb-10">
         <h1 className="text-4xl font-black text-[#ff4b2b] uppercase tracking-tight">CATEGORÍA: INDIE</h1>
-        <p className="text-gray-400 mt-2 italic text-sm">"No solo se trata de jugar, se trata de resistir."</p>
+        <p className="text-gray-400 mt-2 italic text-sm">"Si por Indie entiendes juegos de coste bien reducio ajeno a las grandes copañias, este es tu lugar."</p>
       </header>
 
       {loading ? (

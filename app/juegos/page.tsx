@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import { supabase } from "@/lib/supabase"; 
 import Link from 'next/link';
 
+// CORRECCIÓN: Actualizamos la interfaz para que coincida con la base de datos
 interface Juego {
-  id: number;
+  identificación: number; // Antes era 'id'
   titulo: string;
   descripcion: string;
   imagen_portada: string; 
@@ -29,7 +30,6 @@ export default function JuegosPage() {
   return (
     <div className="min-h-screen bg-[#0b121e] text-white p-10">
       
-      {/* Añadimos el id="catalogo" para que el botón de volver del checkout funcione */}
       <header id="catalogo" className="text-center mb-12">
         <h1 className="text-5xl font-black text-[#ff6600] uppercase tracking-tighter mb-4">
             Catálogo de Videojuegos
@@ -53,7 +53,8 @@ export default function JuegosPage() {
       {/* Grid Dinámico */}
       <main className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
         {juegos.map((juego) => (
-          <div key={juego.id} className="bg-[#162031] border border-gray-800 rounded-2xl overflow-hidden group">
+          /* CORRECCIÓN: Cambiado de juego.id a juego.identificación */
+          <div key={juego.identificación} className="bg-[#162031] border border-gray-800 rounded-2xl overflow-hidden group">
             <div className="h-52 bg-black overflow-hidden flex items-center justify-center">
               <img
                 src={juego.imagen_portada}
@@ -66,11 +67,10 @@ export default function JuegosPage() {
               <h3 className="text-2xl font-bold text-white mb-2">{juego.titulo}</h3>
               <p className="text-gray-400 text-sm mb-6 line-clamp-2">{juego.descripcion}</p>
               
-              {/* 
-                CORRECCIÓN: Envolvemos el botón en un Link.
-                Asegúrate de que tu carpeta de detalles se llame "juego" en minúsculas.
+              {/* CORRECCIÓN FINAL: Usamos juego.identificación para el enlace.
+                Esto hará que la URL sea /juego/1 en lugar de /juego/undefined.
               */}
-              <Link href={`/juego/${juego.id}`}>
+              <Link href={`/juego/${juego.identificación}`}>
                 <button className="w-full bg-[#ff6600] hover:bg-[#e65c00] text-white font-bold py-3 rounded-xl uppercase text-sm transition-colors">
                   Ver Detalles
                 </button>

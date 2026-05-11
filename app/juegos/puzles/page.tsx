@@ -7,28 +7,31 @@ export default function PuzlesPage() {
   const [juegos, setJuegos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   
-  // CAMBIO AQUÍ: ID 7 para Supervivencia
+  // ID 7 para Puzles
   const CATEGORIA_ID = 7; 
 
   useEffect(() => {
     const fetchJuegos = async () => {
       setLoading(true);
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('video_juego')
         .select('*')
         .eq('id_categoria', CATEGORIA_ID)
-        .order('id', { ascending: true });
+        /* CORRECCIÓN: Usamos identificación para ordenar */
+        .order('identificación', { ascending: true });
+        
       if (data) setJuegos(data);
+      if (error) console.error("Error cargando puzles:", error);
       setLoading(false);
     };
     fetchJuegos();
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0b121e] text-white p-6 md:p-10">
+    <div className="min-h-screen bg-[#0b121e] text-white p-6 md:p-10 font-sans">
       <header className="mb-10">
         <h1 className="text-4xl font-black text-[#ff4b2b] uppercase tracking-tight">CATEGORÍA: PUZLES</h1>
-        <p className="text-gray-400 mt-2 italic text-sm">"Solo acto para polineuronales."</p>
+        <p className="text-gray-400 mt-2 italic text-sm">"Solo apto para polineuronales."</p>
       </header>
 
       {loading ? (
@@ -39,17 +42,28 @@ export default function PuzlesPage() {
             const isTop1 = index === 0;
             return (
               <Link 
-                href={`/juego/${juego.id}`} 
-                key={juego.id} 
+                /* CORRECCIÓN: Enlace con identificación para evitar el undefined */
+                href={`/juego/${juego.identificación}`} 
+                key={juego.identificación} 
                 className={`${isTop1 ? 'md:col-span-2 md:row-span-2 h-[600px]' : 'h-[290px]'} relative group overflow-hidden rounded-3xl bg-black border border-white/5 block`}
               >
                 <div className="absolute top-5 left-5 z-30 bg-black/60 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
                   <span className="text-[10px] font-black italic text-[#ff4b2b] uppercase">TOP {index + 1}</span>
                 </div>
-                <img src={juego.imagen_portada} className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" alt={juego.titulo} />
+
+                <img 
+                  src={juego.imagen_portada} 
+                  className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" 
+                  alt={juego.titulo} 
+                />
+                
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0b121e] via-transparent to-transparent z-10"></div>
+                
                 <div className="absolute bottom-0 left-0 p-8 z-20 w-full">
-                  <h2 className={`${isTop1 ? 'text-6xl' : 'text-2xl'} font-black uppercase tracking-tighter`}>{juego.titulo}</h2>
+                  <h2 className={`${isTop1 ? 'text-6xl' : 'text-2xl'} font-black uppercase tracking-tighter drop-shadow-lg`}>
+                    {juego.titulo}
+                  </h2>
+                  <p className="text-[#ff4b2b] text-[10px] font-bold uppercase tracking-[0.2em] mt-2">Click para ver detalles</p>
                 </div>
               </Link>
             );

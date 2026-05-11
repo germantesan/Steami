@@ -7,28 +7,33 @@ export default function ColeccionPage() {
   const [juegos, setJuegos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   
-  // CAMBIO AQUÍ: ID 8 para Supervivencia
+  // ID para Colección
   const CATEGORIA_ID = 8; 
 
   useEffect(() => {
     const fetchJuegos = async () => {
       setLoading(true);
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('video_juego')
         .select('*')
         .eq('id_categoria', CATEGORIA_ID)
-        .order('id', { ascending: true });
+        /* CORRECCIÓN 1: Ordenamos por 'identificación' (el nombre real en tu DB) */
+        .order('identificación', { ascending: true });
+        
       if (data) setJuegos(data);
+      if (error) console.error("Error cargando colección:", error);
       setLoading(false);
     };
     fetchJuegos();
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0b121e] text-white p-6 md:p-10">
+    <div className="min-h-screen bg-[#0b121e] text-white p-6 md:p-10 font-sans">
       <header className="mb-10">
         <h1 className="text-4xl font-black text-[#ff4b2b] uppercase tracking-tight">CATEGORÍA: COLECCION</h1>
-        <p className="text-gray-400 mt-2 italic text-sm">"Nuestros juegos no violan ninguna propiedad intelectual. Cualquier parecido con hechos, personajes reales o fictios, o violaciones de alguna propiedad intelectual es mera coincidencia. Nos gustaría enfatizar en que nuestros juegos no violan ninguna propiedad intelectual. En el improbable caso de que pienses que nuestros juegos violan alguna propiedad intelectual está usted rotundamente equivocado, pues le recuerdo que nuestros juegos no violan ninguna propiedad intelectual. Si sigues pensando que nuestros juegos violan alguna propiedad intelectual consulta el número de telefono de nuestra página de contacto para que comprendas las razones por las que nuestros juegos no violan ninguna propiedad intelectual. Por si acaso lo diremos en mayúsculas para recalcarlo NUESTROS JUEGOS NO VIOLAN NINGUNA PROPIEDAD INTELECTUAL. Todos los derechos reservados."</p>
+        <p className="text-gray-400 mt-2 italic text-sm text-justify">
+          "Nuestros juegos no violan ninguna propiedad intelectual... NUESTROS JUEGOS NO VIOLAN NINGUNA PROPIEDAD INTELECTUAL. Todos los derechos reservados."
+        </p>
       </header>
 
       {loading ? (
@@ -39,17 +44,29 @@ export default function ColeccionPage() {
             const isTop1 = index === 0;
             return (
               <Link 
-                href={`/juego/${juego.id}`} 
-                key={juego.id} 
+                /* CORRECCIÓN 2: Usamos identificación para evitar el /juego/undefined */
+                href={`/juego/${juego.identificación}`} 
+                key={juego.identificación} 
                 className={`${isTop1 ? 'md:col-span-2 md:row-span-2 h-[600px]' : 'h-[290px]'} relative group overflow-hidden rounded-3xl bg-black border border-white/5 block`}
               >
+                {/* Badge de Ranking */}
                 <div className="absolute top-5 left-5 z-30 bg-black/60 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
                   <span className="text-[10px] font-black italic text-[#ff4b2b] uppercase">TOP {index + 1}</span>
                 </div>
-                <img src={juego.imagen_portada} className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" alt={juego.titulo} />
+
+                <img 
+                  src={juego.imagen_portada} 
+                  className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" 
+                  alt={juego.titulo} 
+                />
+                
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0b121e] via-transparent to-transparent z-10"></div>
+                
                 <div className="absolute bottom-0 left-0 p-8 z-20 w-full">
-                  <h2 className={`${isTop1 ? 'text-6xl' : 'text-2xl'} font-black uppercase tracking-tighter`}>{juego.titulo}</h2>
+                  <h2 className={`${isTop1 ? 'text-6xl' : 'text-2xl'} font-black uppercase tracking-tighter drop-shadow-lg`}>
+                    {juego.titulo}
+                  </h2>
+                  <p className="text-[#ff4b2b] text-[10px] font-bold uppercase tracking-[0.2em] mt-2">Click para ver detalles</p>
                 </div>
               </Link>
             );

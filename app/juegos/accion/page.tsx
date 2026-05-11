@@ -12,12 +12,15 @@ export default function AccionPage() {
   useEffect(() => {
     const fetchAccion = async () => {
       setLoading(true);
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('video_juego')
         .select('*')
         .eq('id_categoria', CATEGORIA_ID)
-        .order('id', { ascending: true });
+        // CORRECCIÓN 1: Ordenamos por 'identificación' (el nombre real en tu DB)
+        .order('identificación', { ascending: true });
+        
       if (data) setJuegos(data);
+      if (error) console.error("Error cargando acción:", error);
       setLoading(false);
     };
     fetchAccion();
@@ -38,8 +41,9 @@ export default function AccionPage() {
             const isTop1 = index === 0;
             return (
               <Link 
-                href={`/juego/${juego.id}`} 
-                key={juego.id} 
+                /* CORRECCIÓN 2: Usamos identificación para evitar el /juego/undefined */
+                href={`/juego/${juego.identificación}`} 
+                key={juego.identificación} 
                 className={`${isTop1 ? 'md:col-span-2 md:row-span-2 h-[600px]' : 'h-[290px]'} relative group overflow-hidden rounded-3xl bg-black shadow-2xl block border border-white/5`}
               >
                 {/* Badge de Ranking */}

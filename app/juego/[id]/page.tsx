@@ -13,21 +13,21 @@ export default function DetalleJuegoPage() {
 
   useEffect(() => {
     const fetchJuego = async () => {
-      // Obtenemos los datos incluyendo la nueva columna 'precio'
+      // CORRECCIÓN: Filtramos por 'identificación' para coincidir con tu DB restaurada
       const { data } = await supabase
         .from('video_juego')
         .select('*')
-        .eq('id', id)
+        .eq('identificación', id) 
         .single();
       
       if (data) {
         setJuego(data);
         
         const favoritos = JSON.parse(localStorage.getItem('favoritos') || '[]');
-        setEsFavorito(favoritos.some((fav: any) => fav.id === data.id));
+        setEsFavorito(favoritos.some((fav: any) => fav.id === data.identificación));
 
         const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
-        setEnCarrito(carrito.some((item: any) => item.id === data.id));
+        setEnCarrito(carrito.some((item: any) => item.id === data.identificación));
       }
       setLoading(false);
     };
@@ -38,10 +38,10 @@ export default function DetalleJuegoPage() {
     const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
     if (!enCarrito) {
       carrito.push({
-        id: juego.id,
+        id: juego.identificación, // Usamos la columna con tilde
         titulo: juego.titulo,
         imagen_portada: juego.imagen_portada,
-        precio: juego.precio || 0 // Guardamos el precio real
+        precio: juego.precio || 0 
       });
       localStorage.setItem('carrito', JSON.stringify(carrito));
       setEnCarrito(true);
@@ -51,9 +51,13 @@ export default function DetalleJuegoPage() {
   const toggleFavorito = () => {
     let favoritos = JSON.parse(localStorage.getItem('favoritos') || '[]');
     if (esFavorito) {
-      favoritos = favoritos.filter((fav: any) => fav.id !== juego.id);
+      favoritos = favoritos.filter((fav: any) => fav.id !== juego.identificación);
     } else {
-      favoritos.push({ id: juego.id, titulo: juego.titulo, imagen_portada: juego.imagen_portada });
+      favoritos.push({ 
+        id: juego.identificación, 
+        titulo: juego.titulo, 
+        imagen_portada: juego.imagen_portada 
+      });
     }
     localStorage.setItem('favoritos', JSON.stringify(favoritos));
     setEsFavorito(!esFavorito);
@@ -99,7 +103,6 @@ export default function DetalleJuegoPage() {
               {esFavorito ? '❤️ En Favoritos' : 'Añadir a Favoritos'}
             </button>
             
-            {/* VISOR DE PRECIO CON DECIMALES */}
             <div className="bg-[#162031] border border-white/10 py-4 rounded-xl font-black uppercase text-sm text-[#ff6600] flex items-center justify-center shadow-inner">
               {juego.precio !== null ? `${Number(juego.precio).toFixed(2)} €` : '0.00 €'}
             </div>

@@ -30,7 +30,9 @@ export default function TerrorPage() {
   return (
     <div className="min-h-screen bg-[#0b121e] text-white p-6 md:p-10 font-sans">
       <header className="mb-10">
-        <h1 className="text-4xl font-black text-[#ff4b2b] uppercase tracking-tight">CATEGORÍA: TERROR</h1>
+        <h1 className="text-4xl font-black uppercase tracking-tight text-[#ff6600]">
+            CATEGORÍA DE <span className="text-white">TERROR</span>
+        </h1>
         <p className="text-gray-400 mt-2 italic text-sm">"No me pagan lo suficiente para decir que esta basura da miedo."</p>
       </header>
 

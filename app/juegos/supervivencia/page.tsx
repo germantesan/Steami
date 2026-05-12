@@ -30,7 +30,9 @@ export default function SupervivenciaPage() {
   return (
     <div className="min-h-screen bg-[#0b121e] text-white p-6 md:p-10 font-sans">
       <header className="mb-10">
-        <h1 className="text-4xl font-black text-[#ff4b2b] uppercase tracking-tight">CATEGORÍA: SUPERVIVENCIA</h1>
+        <h1 className="text-4xl font-black uppercase tracking-tight text-[#ff6600]">
+            CATEGORÍA DE <span className="text-white">SUPERVIVENCIA</span>
+        </h1>
         <p className="text-gray-400 mt-2 italic text-sm">"Si te gusta sufrir intentando sobrevivir en lugares donde absolutamente todo te mata entre agonías, disfruta."</p>
       </header>
 

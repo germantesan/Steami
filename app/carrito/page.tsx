@@ -28,7 +28,7 @@ export default function CarritoPage() {
       <header className="max-w-4xl mx-auto mb-12 flex justify-between items-center">
         <div>
           <h1 className="text-4xl font-black uppercase tracking-tighter">
-            TU <span className="text-[#ff6600]">CARRITO</span>
+            MI <span className="text-[#ff6600]">CARRITO</span>
           </h1>
           <p className="text-gray-500 text-xs font-bold uppercase tracking-widest mt-1">
             REVISA TUS ARTÍCULOS ANTES DEL PAGO
@@ -100,7 +100,7 @@ export default function CarritoPage() {
           </button>
 
           <p className="text-[9px] text-center text-gray-600 font-bold uppercase mt-6 tracking-tight px-4">
-            Impuestos incluidos. Transacción segura procesada por SteamI Cloud.
+            Impuestos incluidos. Transacción insegura procesada por SteamI Cloud.
           </p>
         </div>
       </div>

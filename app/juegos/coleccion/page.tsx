@@ -32,7 +32,7 @@ export default function ColeccionPage() {
       <header className="mb-10">
         <h1 className="text-4xl font-black text-[#ff4b2b] uppercase tracking-tight">CATEGORÍA: COLECCION</h1>
         <p className="text-gray-400 mt-2 italic text-sm text-justify">
-          "Nuestros juegos no violan ninguna propiedad intelectual... NUESTROS JUEGOS NO VIOLAN NINGUNA PROPIEDAD INTELECTUAL. Todos los derechos reservados."
+          "Nuestros juegos no violan ninguna propiedad intelectual. Cualquier parecido con hechos, personajes reales, ficticios, o violaciones de alguna propiedad intelectual es mera coincidencia. Nos gustaría enfatizar en que nuestros juegos no violan ninguna propiedad intelectual. Si piensas que nuestros juegos violan alguna propiedad intelectual, llama al teléfono de contacto de la página de contacto para que comprendas las razones por las que nuestros juegos no violan ninguna propiedad intelectual. Si sigues pensando que nuestros juegos violan alguna propiedad intelectual está usted equivocado, pues le recordamos que nuestros juegos no violan ninguna propiedad intelectual. Por si acaso lo diremos en mayúsculas: NUESTROS JUEGOS NO VIOLAN NINGUNA PROPIEDAD INTELECTUAL. Todos los derechos reservados."
         </p>
       </header>
 

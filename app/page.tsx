@@ -32,12 +32,6 @@ export default function Home() {
         </p>
       </div>
 
-      {/* Botón de ayuda - Naranja sutil */}
-      <div className="mt-12">
-        <button className="text-xs text-[#ff6600]/50 border border-[#ff6600]/20 px-4 py-2 rounded hover:bg-[#ff6600]/5 transition font-sans">
-          Probar conexión GET
-        </button>
-      </div>
     </div>
   );
 }

@@ -10,13 +10,9 @@ export default function MisJuegosPage() {
   useEffect(() => {
     const fetchBiblioteca = async () => {
       setLoading(true);
-      
-      // 1. Obtenemos el usuario actual
       const { data: { user } } = await supabase.auth.getUser();
 
       if (user) {
-        // 2. Buscamos en la tabla 'biblioteca' los juegos de este usuario
-        // Hacemos un JOIN con 'video_juego' para traer los detalles (portada, titulo)
         const { data, error } = await supabase
           .from('biblioteca')
           .select(`
@@ -30,7 +26,6 @@ export default function MisJuegosPage() {
           .eq('usuario_email', user.email);
 
         if (data) {
-          // Limpiamos el array para quedarnos solo con la info del juego
           const listaJuegos = data.map(item => item.video_juego);
           setJuegos(listaJuegos);
         }
@@ -43,24 +38,42 @@ export default function MisJuegosPage() {
 
   return (
     <div className="min-h-screen bg-[#0b121e] text-white p-10 font-sans">
-      <h1 className="text-4xl font-black text-[#ff4b2b] uppercase mb-8 italic">Mis Juegos</h1>
+      
+      {/* Título actualizado: "Mis" en Blanco, "Juegos" en Naranja */}
+      <h1 className="text-4xl font-black uppercase mb-8 italic tracking-tighter">
+        <span className="text-white">Mis</span> <span className="text-[#ff6600]">Juegos</span>
+      </h1>
 
       {loading ? (
-        <div className="text-[#ff4b2b] animate-pulse font-bold">CARGANDO TU BIBLIOTECA...</div>
+        <div className="text-[#ff6600] animate-pulse font-black uppercase tracking-widest text-sm">
+          CARGANDO TU BIBLIOTECA...
+        </div>
       ) : juegos.length === 0 ? (
-        <div className="bg-[#162031] p-10 rounded-2xl border border-white/5 text-center">
-          <p className="text-gray-400 mb-4">Aún no has comprado ningún juego.</p>
-          <Link href="/juegos" className="text-[#ff4b2b] font-bold hover:underline">Ir a la tienda →</Link>
+        <div className="bg-[#162031] p-10 rounded-2xl border border-white/5 text-center shadow-2xl">
+          <p className="text-gray-400 mb-6 font-medium italic">Aún no has pirateado ningún juego.</p>
+          <Link href="/juegos" className="bg-[#ff6600] text-white px-6 py-3 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-white hover:text-black transition-all inline-block">
+            Ir a la tienda →
+          </Link>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {juegos.map((juego) => (
-            <div key={juego.identificación} className="bg-[#162031] rounded-xl overflow-hidden border border-white/5 group">
-              <img src={juego.imagen_portada} className="w-full h-40 object-cover" alt={juego.titulo} />
-              <div className="p-4">
-                <h3 className="font-bold uppercase truncate">{juego.titulo}</h3>
-                <button className="w-full mt-4 bg-[#ff4b2b] py-2 rounded font-black text-xs uppercase hover:bg-white hover:text-black transition-colors">
-                  Jugar
+            <div key={juego.identificación} className="bg-[#162031] rounded-2xl overflow-hidden border border-white/5 group hover:border-[#ff6600]/30 transition-all shadow-xl">
+              <div className="relative h-44 overflow-hidden">
+                <img 
+                  src={juego.imagen_portada} 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                  alt={juego.titulo} 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#162031] via-transparent to-transparent opacity-80"></div>
+              </div>
+              <div className="p-5">
+                <h3 className="font-black uppercase truncate text-sm tracking-tight mb-4 text-white group-hover:text-[#ff6600] transition-colors">
+                  {juego.titulo}
+                </h3>
+                
+                <button className="w-full bg-[#ff6600] py-3 rounded-xl font-black text-[10px] uppercase tracking-widest text-white hover:bg-white hover:text-[#0b121e] transition-all">
+                  INSTALAR AHORA
                 </button>
               </div>
             </div>
@@ -70,3 +83,4 @@ export default function MisJuegosPage() {
     </div>
   );
 }
+

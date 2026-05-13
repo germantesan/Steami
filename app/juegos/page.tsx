@@ -36,7 +36,7 @@ export default function JuegosPage() {
             <span className="text-white">Nuestro</span> <span className="text-[#ff6600]">Catálogo de Videojuegos</span>
         </h1>
         <p className="text-gray-300 text-lg font-light italic">
-            Tu enciclopedia definitiva: historia, versiones y detalles de tus títulos favoritos.
+            Tu enciclopedia definitiva: historia, plagios y detalles de tus títulos favoritos.
         </p>
       </header>
 

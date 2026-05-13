@@ -24,3 +24,13 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Fuerza el cursor de mano en todos los botones y enlaces del proyecto */
+button, a {
+  cursor: pointer !important;
+}
+
+/* Si usáis tarjetas o imágenes clicables, añadidles esta clase en Tailwind */
+.cursor-pointer {
+  cursor: pointer;
+}

@@ -9,6 +9,22 @@ export default function RegistroPage() {
     const [mensaje, setMensaje] = useState('');
     const router = useRouter();
 
+    // --- FUNCIÓN PARA REGISTRO/LOGIN CON GOOGLE ---
+    const manejarGoogleAuth = async () => {
+        setMensaje("Conectando con Google...");
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                // Redirige a /juegos tras el éxito
+                redirectTo: window.location.origin + '/juegos', 
+            },
+        });
+
+        if (error) {
+            setMensaje("误差: " + error.message);
+        }
+    };
+
     const manejarRegistro = async (e: React.FormEvent) => {
         e.preventDefault();
         setMensaje("Procesando...");
@@ -29,7 +45,8 @@ export default function RegistroPage() {
     return (
         <div className="min-h-screen bg-[#0b121e] text-white flex items-center justify-center p-6">
             <div className="bg-[#162031] p-8 rounded-2xl shadow-2xl border border-white/5 w-full max-w-md">
-                {/* Título unificado: Blanco y Naranja */}
+                
+                {/* Título unificado: STEAMI */}
                 <h1 className="text-4xl font-black text-center mb-2 tracking-tighter italic">
                     <span className="text-white">STE</span><span className="text-[#ff6600]">AMI</span>
                 </h1>
@@ -68,6 +85,27 @@ export default function RegistroPage() {
                         Unirse a la comunidad
                     </button>
                 </form>
+
+                {/* --- SEPARADOR VISUAL --- */}
+                <div className="flex items-center my-6 gap-3">
+                    <div className="h-[1px] bg-white/5 flex-grow"></div>
+                    <span className="text-[10px] text-gray-600 font-black">O</span>
+                    <div className="h-[1px] bg-white/5 flex-grow"></div>
+                </div>
+
+                {/* --- BOTÓN DE GOOGLE --- */}
+                <button 
+                    onClick={manejarGoogleAuth}
+                    type="button"
+                    className="w-full bg-white/5 hover:bg-white/10 text-white border border-white/10 font-bold py-4 rounded-xl transition-all active:scale-95 flex items-center justify-center gap-3 text-[10px] uppercase tracking-widest"
+                >
+                    <img 
+                        src="https://www.google.com/favicon.ico" 
+                        alt="Google" 
+                        className="w-4 h-4 opacity-80" 
+                    />
+                    Registrarse con Google
+                </button>
 
                 {mensaje && (
                     <p className="mt-6 text-center text-[10px] font-black uppercase tracking-widest text-[#ff6600] bg-[#ff6600]/5 py-3 rounded-xl border border-[#ff6600]/20">

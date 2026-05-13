@@ -25,12 +25,13 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Fuerza el cursor de mano en todos los botones y enlaces del proyecto */
-button, a {
+/* Borra el anterior del punto 2 y pega este abajo del todo */
+button, a, input[type="button"], input[type="submit"] {
   cursor: pointer !important;
+  pointer-events: auto !important;
 }
 
-/* Si usáis tarjetas o imágenes clicables, añadidles esta clase en Tailwind */
-.cursor-pointer {
-  cursor: pointer;
+/* Evita que el texto de dentro del botón confunda al cursor */
+button *, a * {
+  pointer-events: none !important;
 }

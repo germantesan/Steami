@@ -35,7 +35,7 @@ export default function Navbar() {
 
     return (
         <nav className="bg-[#0b121e] border-b border-white/5 p-4 flex justify-between items-center shadow-md sticky top-0 z-50 font-sans">
-            {/* Logo de Steami - Con vuestro naranja y blanco */}
+            {/* Logo de Steami */}
             <Link href="/" className="text-2xl font-black text-[#ff6600] tracking-tighter italic cursor-pointer">
                 STEAMI<span className="text-white">PRO</span>
             </Link>
@@ -52,10 +52,10 @@ export default function Navbar() {
                     Contacto
                 </Link>
 
-                {/* BOTONES DE ACCIÓN (Favoritos, Carrito, Mis Juegos y Cuenta) */}
+                {/* BOTONES DE ACCIÓN (Favoritos, Carrito y Mis Juegos) */}
                 <div className="flex items-center gap-3 ml-4">
                     
-                    {/* BOTÓN MIS JUEGOS - Unificado en vuestro estilo Naranja y Blanco */}
+                    {/* BOTÓN MIS JUEGOS */}
                     {userEmail && (
                         <Link 
                             href="/mis-juegos" 
@@ -93,23 +93,12 @@ export default function Navbar() {
                         🛒 CARRITO
                     </Link>
 
-                    {/* NUEVO BOTÓN DE ACCESO / CUENTA INTEGRADO */}
-                    <Link 
-                        href="/acceso" 
-                        className={`flex items-center gap-2 px-4 py-1.5 rounded-full border transition-all font-black text-[10px] tracking-widest cursor-pointer ${
-                            pathname === '/acceso' 
-                            ? 'bg-white border-white text-black shadow-[0_0_15px_rgba(255,255,255,0.2)]' 
-                            : 'border-white/20 text-white hover:bg-[#ff6600] hover:border-[#ff6600] hover:text-white'
-                        }`}
-                    >
-                        🔑 CUENTA
-                    </Link>
+                    {/* EL BOTÓN "CUENTA" HA SIDO ELIMINADO DE AQUÍ */}
                 </div>
 
                 {/* Estado de Usuario / Login */}
                 {userEmail ? (
                     <div className="flex items-center gap-4 ml-4 border-l border-white/10 pl-6">
-                        {/* Indicador de nombre de usuario en naranja y blanco */}
                         <span className="text-[10px] text-[#ff6600] font-black border border-[#ff6600]/30 px-3 py-1 rounded-full bg-[#ff6600]/5 uppercase">
                             {userEmail.split('@')[0]}
                         </span>
@@ -121,7 +110,7 @@ export default function Navbar() {
                         </button>
                     </div>
                 ) : (
-                    <Link href="/login" className="bg-[#ff6600] px-5 py-2 rounded-lg text-[11px] font-black hover:bg-white hover:text-black transition-all text-white uppercase tracking-widest cursor-pointer">
+                    <Link href="/acceso" className="bg-[#ff6600] px-5 py-2 rounded-lg text-[11px] font-black hover:bg-white hover:text-black transition-all text-white uppercase tracking-widest cursor-pointer">
                         ENTRAR
                     </Link>
                 )}

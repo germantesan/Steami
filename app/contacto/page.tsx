@@ -51,10 +51,7 @@ export default function ContactoPage() {
           </div>
         </div>
 
-        {/* Botón de acción opcional */}
-        <button className="bg-white/5 hover:bg-white/10 border border-white/10 px-8 py-3 rounded-full text-sm font-bold transition-all active:scale-95">
-          Volver al Inicio
-        </button>
+       
       </div>
     </div>
   );

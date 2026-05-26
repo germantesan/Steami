@@ -1,0 +1,12 @@
+{
+    "mcpServers": {
+    "supabase-steami": {
+        "command": "npx",
+        "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgres://postgres.jgjzlxwcwcbjjjslfqn:burgodeosma4C@aws-0-eu-north-1.pooler.supabase.com:6543/postgres"
+        ]
+    }
+    }
+}

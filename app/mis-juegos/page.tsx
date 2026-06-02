@@ -26,7 +26,7 @@ export default function MisJuegosPage() {
           .eq('usuario_email', user.email);
 
         if (data) {
-          const listaJuegos = data.map(item => item.video_juego);
+          const listaJuegos = data.map((item:any) => item.video_juego);
           setJuegos(listaJuegos);
         }
       }
